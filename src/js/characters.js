@@ -15,6 +15,30 @@ export class Character {
     this.health = 100;
     this.level = 1;
   }
+
+  levelUp() {
+    if (this.health === 0) {
+      throw new Error('Cannot level up a deceased character.');
+    }
+    this.level += 1;
+    this.attack += Math.round(this.attack * 0.2);
+    this.defence += Math.round(this.defence * 0.2);
+    if (this.health < 100) {
+      this.health = 100;
+    }
+  }
+
+  damage(points) {
+    if (this.health === 0) {
+      throw new Error('Cannot damage a deceased character.');
+    }
+
+    const damageTaken = points * (1 - this.defence / 100);
+    this.health -= damageTaken;
+    if (this.health < 0) {
+      this.health = 0;
+    }
+  }
 }
 
 export class Bowerman extends Character {
